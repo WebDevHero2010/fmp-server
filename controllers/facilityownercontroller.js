@@ -57,7 +57,7 @@ router.get("/", validateSession, (req, res) => {
 
 router.put("/update/:entryId", validateSession, function (req, res) {
   try {
-    const updateFacility = {
+    const updateFacilityOwner = {
       email: req.body.facilityowner.email,
       firstName: req.body.facilityowner.firstName,
       lastName: req.body.facilityowner.lastName,
@@ -73,7 +73,7 @@ router.put("/update/:entryId", validateSession, function (req, res) {
       where: { id: req.params.entryId, owner_id: req.healthdeptuser.id },
     };
 
-    FacilityOwner.update(updateFacility, query)
+    FacilityOwner.update(updateFacilityOwner, query)
       .then((facilityowner) => res.status(200).json(facilityowner))
       .catch((err) => res.status(500).json({ error: err }));
   } catch (e) {
