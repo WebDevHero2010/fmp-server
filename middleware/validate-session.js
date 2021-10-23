@@ -3,9 +3,7 @@ const { HealthDeptUser } = require("../models");
 
 const validateSession = (req, res, next) => {
   if (!token) {
-    return res
-      .status(403)
-      .send({ auth: false, message: "No Token Provided" });
+    return res.status(403).send({ auth: false, message: "No Token Provided" });
   } else {
     jwt.verify(token, process.env.JWT_SECRET, (err, decodeToken) => {
       if (!err && decodeToken) {
@@ -16,7 +14,7 @@ const validateSession = (req, res, next) => {
         })
           .then((healthDeptUser) => {
             if (!healthDeptuser) throw err;
-            req.user = user;
+            req.healthdeptuser = healthdeptuser;
             return next();
           })
           .catch((err) => next(err));
