@@ -1,5 +1,5 @@
 // create individual files for your models and import them here
-const HealthDeptUser = require("./healthdeptuser");
+const User = require("./user");
 const FacilityOwner = require("./facilityowner");
 const FoodHandler = require("./foodhandler");
 const Facility = require("./facility");
@@ -8,7 +8,7 @@ const Narratives = require("./narratives");
 // Setup Associations
 
 module.exports = {
-  HealthDeptUser,
+  User,
   FacilityOwner,
   FoodHandler,
   Facility,

@@ -1,24 +1,24 @@
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 const { Router } = require("express");
-const { HealthDeptUser } = require("../models");
-const validateSession = require("../middleware/validate-session");
+const { User } = require("../models");
+// const validateSession = require("../middleware/validate-session");
 
 const router = Router();
 
-router.post("/create", async function (req, res) {
+router.post("/signup", async function (req, res) {
   try {
-    HealthDeptUser.create({
-      email: req.body.healthdeptuser.email,
-      firstname: req.body.healthdeptuser.firstname,
-      lastname: req.body.healthdeptuser.name,
-      password: bcrypt.hashSync(req.body.healthdeptuser.password, 10),
-    }).then(function createSuccess(healthdeptuser) {
-      let token = jwt.sign({ id: healthdeptuser.id }, process.env.JWT_SECRET, {
+    User.create({
+      email: req.body.user.email,
+      firstName: req.body.user.firstName,
+      lastName: req.body.user.lastName,
+      password: bcrypt.hashSync(req.body.user.password, 10),
+    }).then(function createSuccess(user) {
+      let token = jwt.sign({ id: user.id }, process.env.JWT_SECRET, {
         expiresIn: 60 * 60 * 24,
       });
       res.json({
-        healthdeptuser: healthdeptuser,
+        user: user,
         message: "User successfully created & added to DB",
         sessionToken: token,
       });
@@ -30,23 +30,19 @@ router.post("/create", async function (req, res) {
 
 router.post("/login", async function (req, res) {
   try {
-    HealthDeptUser.findOne({ where: { email: req.body.healthdeptuser.email } })
-      .then(function loginSuccess(healthdeptuser) {
-        if (healthdeptuser) {
+    User.findOne({ where: { email: req.body.user.email } })
+      .then(function loginSuccess(user) {
+        if (user) {
           bcrypt.compare(
-            req.body.healthdeptuser.password,
-            healthdeptuser.password,
+            req.body.user.password,
+            user.password,
             function (err, matches) {
               if (matches) {
-                let token = jwt.sign(
-                  { id: healthdeptuser.id },
-                  process.env.JWT_SECRET,
-                  {
-                    expiresIn: 60 * 60 * 24,
-                  }
-                );
+                let token = jwt.sign({ id: user.id }, process.env.JWT_SECRET, {
+                  expiresIn: 60 * 60 * 24,
+                });
                 res.status(200).json({
-                  healthdeptuser: healthdeptuser,
+                  user: user,
                   message: "Health Department User has successfully logged in!",
                   sessionToken: token,
                 });

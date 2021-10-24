@@ -1,7 +1,7 @@
 const { DataTypes } = require("sequelize");
 const db = require("../db");
 
-const HealthDeptUser = db.define("healthdeptuser", {
+const User = db.define("user", {
   email: {
     type: DataTypes.STRING,
     allowNull: false,
@@ -23,4 +23,4 @@ const HealthDeptUser = db.define("healthdeptuser", {
   },
 });
 
-module.exports = HealthDeptUser;
+module.exports = User;

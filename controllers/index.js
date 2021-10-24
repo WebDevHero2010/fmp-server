@@ -1,5 +1,5 @@
 module.exports = {
-  HealthDeptUser: require("./healthdeptuserController"),
+  User: require("./userController"),
   Facility: require("./facilitycontroller"),
   FacilityOwner: require("./facilityownercontroller"),
   FoodHandler: require("./foodhandlercontroller"),

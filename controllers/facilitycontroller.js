@@ -17,7 +17,7 @@ router.post("/create", async function (req, res) {
       facilityType: req.body.facility.facilityType,
       menuType: req.body.facility.menuType,
       operationStatus: req.body.facility.operationStatus,
-      healthdeptuser_id: req.healthdeptuser.id,
+      healthdeptuser_id: req.user.id,
     }).then((facility) => {
       res.status(200).json({
         message: `a new facility has been added to the Database`,
@@ -32,7 +32,7 @@ router.post("/create", async function (req, res) {
 router.delete("/delete/:id", validateSession, function (req, res) {
   try {
     const query = {
-      where: { id: req.params.id, owner_id: req.healthdeptuser.id },
+      where: { id: req.params.id, owner_id: req.user.id },
     };
     Facility.destroy(query).then(() =>
       res.status(200).json({ message: "Facility Removed from Database" })
@@ -44,9 +44,9 @@ router.delete("/delete/:id", validateSession, function (req, res) {
 
 router.get("/", validateSession, (req, res) => {
   try {
-    let userid = req.healthdeptuser.id;
+    // let userid = req.user.id;
     Facility.findAll({
-      where: { owner_id: userid },
+      // where: { owner_id: userid },
     })
       .then((Facility) => res.status(200).json(Facility))
       .catch((err) => res.status(500).json({ error: err }));
@@ -66,11 +66,11 @@ router.put("/update/:entryId", validateSession, function (req, res) {
       facilityType: req.body.facility.facilityType,
       menuType: req.body.facility.menuType,
       operationStatus: req.body.facility.operationStatus,
-      healthdeptuser_id: req.healthdeptuser.id,
+      healthdeptuser_id: req.user.id,
     };
 
     const query = {
-      where: { id: req.params.entryId, owner_id: req.healthdeptuser.id },
+      where: { id: req.params.entryId, owner_id: req.user.id },
     };
 
     Facility.update(updateFacility, query)
