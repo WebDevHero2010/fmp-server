@@ -13,16 +13,20 @@ router.post("/signup", async function (req, res) {
       firstName: req.body.user.firstName,
       lastName: req.body.user.lastName,
       password: bcrypt.hashSync(req.body.user.password, 10),
-    }).then(function createSuccess(user) {
-      let token = jwt.sign({ id: user.id }, process.env.JWT_SECRET, {
-        expiresIn: 60 * 60 * 24,
+    })
+      .then(function createSuccess(user) {
+        let token = jwt.sign({ id: user.id }, process.env.JWT_SECRET, {
+          expiresIn: 60 * 60 * 24,
+        });
+        res.json({
+          user: user,
+          message: "User successfully created & added to DB",
+          sessionToken: token,
+        });
+      })
+      .catch(function (err) {
+        res.status(500).json({ error: err });
       });
-      res.json({
-        user: user,
-        message: "User successfully created & added to DB",
-        sessionToken: token,
-      });
-    });
   } catch (e) {
     res.status(500).json({ message: e.message });
   }

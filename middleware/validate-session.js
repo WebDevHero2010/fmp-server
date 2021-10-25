@@ -1,20 +1,21 @@
 const jwt = require("jsonwebtoken");
-const { HealthDeptUser } = require("../models");
+const { User } = require("../models");
 
 const validateSession = (req, res, next) => {
+  const token = req.headers.authorization;
   if (!token) {
     return res.status(403).send({ auth: false, message: "No Token Provided" });
   } else {
     jwt.verify(token, process.env.JWT_SECRET, (err, decodeToken) => {
       if (!err && decodeToken) {
-        HealthDeptUser.findOne({
+        User.findOne({
           where: {
             id: decodeToken.id,
           },
         })
-          .then((healthDeptUser) => {
-            if (!healthDeptuser) throw err;
-            req.healthdeptuser = healthdeptuser;
+          .then((user) => {
+            if (!user) throw err;
+            req.user = user;
             return next();
           })
           .catch((err) => next(err));
