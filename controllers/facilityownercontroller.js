@@ -6,7 +6,7 @@ const validateSession = require("../middleware/validate-session");
 
 const router = Router();
 
-router.post("/create", async function (req, res) {
+router.post("/create", validateSession, async function (req, res) {
   try {
     FacilityOwner.create({
       email: req.body.facilityowner.email,
@@ -17,26 +17,29 @@ router.post("/create", async function (req, res) {
       ownerCity: req.body.facilityowner.ownerCity,
       ownerState: req.body.facilityowner.ownerState,
       ownerZipcode: req.body.facilityowner.ownerZipcode,
-      facility_id: req.body.facilityowner.facility_id,
-    }).then((facilityowner) => {
-      res.status(200).json({
-        message: `a new facilityowner has been added to the Database`,
-        log: facilityowner,
-      });
-    });
+    })
+      .then((facilityowner) => {
+        res.status(200).json({
+          message: `a new facilityowner has been added to the Database`,
+          log: facilityowner,
+        });
+      })
+      .catch((err) => res.status(500).json({ error: err }));
   } catch (e) {
     res.status(500).json({ message: e.message });
   }
 });
 
-router.delete("/delete/:id", validateSession, function (req, res) {
+router.delete("/delete/:id", validateSession, async function (req, res) {
   try {
     const query = {
-      where: { id: req.params.id, owner_id: req.healthdeptuser.id },
+      where: { id: req.params.id },
     };
-    FacilityOwner.destroy(query).then(() =>
-      res.status(200).json({ message: "FacilityOwner Removed from Database" })
-    );
+    await FacilityOwner.destroy(query)
+      .then(() =>
+        res.status(200).json({ message: "FacilityOwner Removed from Database" })
+      )
+      .catch((err) => res.status(500).json({ error: err }));
   } catch (e) {
     res.status(500).json({ message: e.message });
   }
@@ -44,9 +47,9 @@ router.delete("/delete/:id", validateSession, function (req, res) {
 
 router.get("/", validateSession, (req, res) => {
   try {
-    let userid = req.healthdeptuser.id;
+    // let userid = req.healthdeptuser.id;
     FacilityOwner.findAll({
-      where: { owner_id: userid },
+      // where: { owner_id: userid },
     })
       .then((FacilityOwner) => res.status(200).json(FacilityOwner))
       .catch((err) => res.status(500).json({ error: err }));
@@ -55,7 +58,7 @@ router.get("/", validateSession, (req, res) => {
   }
 });
 
-router.put("/update/:entryId", validateSession, function (req, res) {
+router.put("/update/:entryId", validateSession, async function (req, res) {
   try {
     const updateFacilityOwner = {
       email: req.body.facilityowner.email,
@@ -66,14 +69,13 @@ router.put("/update/:entryId", validateSession, function (req, res) {
       ownerCity: req.body.facilityowner.ownerCity,
       ownerState: req.body.facilityowner.ownerState,
       ownerZipcode: req.body.facilityowner.ownerZipcode,
-      facility_id: req.body.facilityowner.facility_id,
     };
 
     const query = {
-      where: { id: req.params.entryId, owner_id: req.healthdeptuser.id },
+      where: { id: req.params.entryId },
     };
 
-    FacilityOwner.update(updateFacilityOwner, query)
+    await FacilityOwner.update(updateFacilityOwner, query)
       .then((facilityowner) => res.status(200).json(facilityowner))
       .catch((err) => res.status(500).json({ error: err }));
   } catch (e) {

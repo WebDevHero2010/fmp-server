@@ -17,10 +17,6 @@ const InspectionReports = db.define("inspectionreports", {
     allowNull: false,
     unique: false,
   },
-  facility_id: {
-    type: DataTypes.INTEGER,
-    allowNull: false,
-  },
 });
 
 module.exports = InspectionReports;

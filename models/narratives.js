@@ -5,31 +5,27 @@ const Narratives = db.define("narratives", {
   sectionNum: {
     type: DataTypes.STRING,
     allowNull: false,
-    unique: true,
+    unique: false,
   },
   violationType: {
     type: DataTypes.STRING,
     allowNull: false,
-    unique: true,
+    unique: false,
   },
   violationIMG: {
     type: DataTypes.STRING(1500),
     allowNull: false,
-    unique: true,
+    unique: false,
   },
   repeatedViolation: {
     type: DataTypes.STRING,
     allowNull: false,
-    unique: true,
+    unique: false,
   },
   correctedBy: {
     type: DataTypes.STRING,
     allowNull: false,
-    unique: true,
-  },
-  facility_id: {
-    type: DataTypes.INTEGER,
-    allowNull: false,
+    unique: false,
   },
 });
 

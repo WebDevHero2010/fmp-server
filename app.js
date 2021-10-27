@@ -15,6 +15,10 @@ app.use(Express.json());
 app.use(middlewares.CORS);
 app.use("/user", controllers.User);
 app.use("/facility", controllers.Facility);
+app.use("/facilityowner", controllers.FacilityOwner);
+app.use("/foodhandler", controllers.FoodHandler);
+app.use("/inspectionreports", controllers.InspectionReport);
+app.use("/narratives", controllers.Narratives);
 
 const resetDatabase = { force: true };
 db.authenticate()
