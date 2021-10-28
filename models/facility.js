@@ -42,9 +42,45 @@ const Facility = db.define("facility", {
     allowNull: false,
     unique: false,
   },
-  healthdeptuser_id: {
+  ownerEmail: {
+    type: DataTypes.STRING,
+    allowNull: false,
+    unique: false,
+  },
+  ownerFirstName: {
+    type: DataTypes.STRING,
+    allowNull: false,
+    unique: false,
+  },
+  ownerLastName: {
+    type: DataTypes.STRING,
+    allowNull: false,
+    unique: false,
+  },
+  ownerPhoneNumber: {
+    type: DataTypes.STRING,
+    allowNull: false,
+    unique: false,
+  },
+  ownerAddress: {
+    type: DataTypes.STRING,
+    allowNull: false,
+    unique: false,
+  },
+  ownerCity: {
+    type: DataTypes.STRING,
+    allowNull: false,
+    unique: false,
+  },
+  ownerState: {
+    type: DataTypes.STRING,
+    allowNull: false,
+    unique: false,
+  },
+  ownerZipcode: {
     type: DataTypes.INTEGER,
     allowNull: false,
+    unique: false,
   },
 });
 

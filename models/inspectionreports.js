@@ -17,6 +17,16 @@ const InspectionReports = db.define("inspectionreports", {
     allowNull: false,
     unique: false,
   },
+  violationFindings: {
+    type: DataTypes.STRING,
+    allowNull: false,
+    unique: false,
+  },
+  toBeCorrectedBy: {
+    type: DataTypes.STRING,
+    allowNull: false,
+    unique: false,
+  },
 });
 
 module.exports = InspectionReports;

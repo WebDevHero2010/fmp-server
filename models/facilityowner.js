@@ -42,6 +42,10 @@ const FacilityOwner = db.define("facilityowner", {
     allowNull: false,
     unique: false,
   },
+  facility_id: {
+    type: DataTypes.INTEGER,
+    allowNull: false,
+  },
 });
 
 module.exports = FacilityOwner;

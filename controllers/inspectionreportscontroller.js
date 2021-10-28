@@ -42,10 +42,11 @@ router.delete("/delete/:id", validateSession, async function (req, res) {
 
 router.get("/", validateSession, (req, res) => {
   try {
-    // let userid = req.healthdeptuser.id;
-    InspectionReports.findAll({
-      // where: { owner_id: userid },
-    })
+    const query = {
+      where: { healthdeptuser_id: req.user.id },
+      // include: "healthdeptuser",
+    };
+    InspectionReports.findAll(query)
       .then((InspectionReports) => res.status(200).json(InspectionReports))
       .catch((err) => res.status(500).json({ error: err }));
   } catch (e) {
