@@ -12,6 +12,10 @@ router.post("/create", validateSession, async function (req, res) {
       purpose: req.body.inspectionreports.purpose,
       followUpDate: req.body.inspectionreports.followUpDate,
       releaseDate: req.body.inspectionreports.releaseDate,
+      violationFindings: req.body.inspectionreports.violationFindings,
+      toBeCorrectedBy: req.body.inspectionreports.toBeCorrectedBy,
+      userId: req.user.id,
+      facilityId: req.body.inspectionreports.facilityId,
     })
       .then((inspectionreports) => {
         res.status(200).json({
@@ -43,9 +47,10 @@ router.delete("/delete/:id", validateSession, async function (req, res) {
 router.get("/", validateSession, (req, res) => {
   try {
     const query = {
-      where: { healthdeptuser_id: req.user.id },
-      // include: "healthdeptuser",
+      // where: { userId: req.user.id },
+      include: ["user", "facility"],
     };
+
     InspectionReports.findAll(query)
       .then((InspectionReports) => res.status(200).json(InspectionReports))
       .catch((err) => res.status(500).json({ error: err }));
@@ -60,8 +65,9 @@ router.put("/update/:entryId", validateSession, async function (req, res) {
       purpose: req.body.inspectionreports.purpose,
       followUpDate: req.body.inspectionreports.followUpDate,
       releaseDate: req.body.inspectionreports.releaseDate,
+      violationFindings: req.body.inspectionreports.violationFindings,
+      toBeCorrectedBy: req.body.inspectionreports.toBeCorrectedBy,
     };
-
     const query = {
       where: { id: req.params.entryId },
     };

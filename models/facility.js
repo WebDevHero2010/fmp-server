@@ -78,7 +78,7 @@ const Facility = db.define("facility", {
     unique: false,
   },
   ownerZipcode: {
-    type: DataTypes.INTEGER,
+    type: DataTypes.STRING,
     allowNull: false,
     unique: false,
   },

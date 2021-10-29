@@ -17,7 +17,15 @@ router.post("/create", validateSession, async function (req, res) {
       facilityType: req.body.facility.facilityType,
       menuType: req.body.facility.menuType,
       operationStatus: req.body.facility.operationStatus,
-      healthdeptuser_id: req.user.id,
+      ownerEmail: req.body.facility.ownerEmail,
+      ownerFirstName: req.body.facility.ownerFirstName,
+      ownerLastName: req.body.facility.ownerLastName,
+      ownerPhoneNumber: req.body.facility.ownerPhoneNumber,
+      ownerAddress: req.body.facility.ownerAddress,
+      ownerCity: req.body.facility.ownerCity,
+      ownerState: req.body.facility.ownerState,
+      ownerZipcode: req.body.facility.ownerZipcode,
+      userId: req.user.id,
     })
       .then((facility) => {
         res.status(200).json({
@@ -48,10 +56,12 @@ router.delete("/delete/:id", validateSession, async function (req, res) {
 
 router.get("/", validateSession, (req, res) => {
   try {
-    // let userid = req.user.id;
-    Facility.findAll({
-      // where: { healthdeptuser_id: userid },
-    })
+    const query = {
+      // where: { userId: req.user.id },
+      include: "inspectionreports",
+    };
+
+    Facility.findAll(query)
       .then((Facility) => res.status(200).json(Facility))
       .catch((err) => res.status(500).json({ error: err }));
   } catch (e) {
@@ -70,7 +80,14 @@ router.put("/update/:entryId", validateSession, function (req, res) {
       facilityType: req.body.facility.facilityType,
       menuType: req.body.facility.menuType,
       operationStatus: req.body.facility.operationStatus,
-      healthdeptuser_id: req.user.id,
+      ownerEmail: req.body.facility.ownerEmail,
+      ownerFirstName: req.body.facility.ownerFirstName,
+      ownerLastName: req.body.facility.ownerLastName,
+      ownerPhoneNumber: req.body.facility.ownerPhoneNumber,
+      ownerAddress: req.body.facility.ownerAddress,
+      ownerCity: req.body.facility.ownerCity,
+      ownerState: req.body.facility.ownerState,
+      ownerZipcode: req.body.ownerZipcode,
     };
 
     const query = {
