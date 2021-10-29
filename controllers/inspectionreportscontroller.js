@@ -59,7 +59,7 @@ router.get("/", validateSession, (req, res) => {
   }
 });
 
-router.put("/update/:entryId", validateSession, async function (req, res) {
+router.put("/update/:entryId", validateSession, function (req, res) {
   try {
     const updateInspectionReports = {
       purpose: req.body.inspectionreports.purpose,
@@ -71,7 +71,7 @@ router.put("/update/:entryId", validateSession, async function (req, res) {
     const query = {
       where: { id: req.params.entryId },
     };
-    app.use("/inspectionreports", controllers.InspectionReports);
+    // app.use("/inspectionreports", controllers.InspectionReports);
     InspectionReports.update(updateInspectionReports, query)
       .then((inspectionreports) => res.status(200).json(inspectionreports))
       .catch((err) => res.status(500).json({ error: err }));
