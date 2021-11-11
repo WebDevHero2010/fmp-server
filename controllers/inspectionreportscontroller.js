@@ -1,13 +1,14 @@
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 const { Router } = require("express");
-const { InspectionReports } = require("../models/");
+const { InspectionReports, Facility, User } = require("../models/");
 const validateSession = require("../middleware/validate-session");
 
 const router = Router();
 
 router.post("/create", validateSession, async function (req, res) {
   try {
+    console.log(req);
     InspectionReports.create({
       purpose: req.body.inspectionreports.purpose,
       followUpDate: req.body.inspectionreports.followUpDate,
@@ -18,10 +19,15 @@ router.post("/create", validateSession, async function (req, res) {
       facilityId: req.body.inspectionreports.facilityId,
     })
       .then((inspectionreports) => {
-        res.status(200).json({
-          message: `a new inspectionreports has been added to the Database`,
-          log: inspectionreports,
-        });
+        Facility.findOne({ where: { id: inspectionreports.facilityId } }).then(
+          (facility) => {
+            console.log(inspectionreports);
+            res.status(200).json({
+              message: `a new inspectionreports has been added to the Database`,
+              log: { ...inspectionreports.dataValues, facility },
+            });
+          }
+        );
       })
       .catch((err) => res.status(500).json({ error: err }));
   } catch (e) {
