@@ -70,6 +70,21 @@ router.get("/", validateSession, (req, res) => {
   }
 });
 
+router.get("/open", (req, res) => {
+  try {
+    const query = {
+      where: { operationStatus: "Open" },
+      // include: "inspectionreports",
+    };
+
+    Facility.findAll(query)
+      .then((Facility) => res.status(200).json(Facility))
+      .catch((err) => res.status(500).json({ error: err }));
+  } catch (e) {
+    res.status(500).json({ message: e.message });
+  }
+});
+
 router.put("/update/:entryId", validateSession, function (req, res) {
   try {
     const updateFacility = {
