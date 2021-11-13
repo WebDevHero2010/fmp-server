@@ -65,6 +65,21 @@ router.get("/", validateSession, (req, res) => {
   }
 });
 
+router.get("/public", (req, res) => {
+  try {
+    const query = {
+      // where: { userId: req.user.id },
+      include: ["user", "facility"],
+    };
+
+    InspectionReports.findAll(query)
+      .then((InspectionReports) => res.status(200).json(InspectionReports))
+      .catch((err) => res.status(500).json({ error: err }));
+  } catch (e) {
+    res.status(500).json({ message: e.message });
+  }
+});
+
 router.put("/update/:entryId", validateSession, function (req, res) {
   try {
     const updateInspectionReports = {
