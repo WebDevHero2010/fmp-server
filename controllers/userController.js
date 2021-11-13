@@ -2,7 +2,7 @@ const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 const { Router } = require("express");
 const { User } = require("../models");
-// const validateSession = require("../middleware/validate-session");
+const validateSession = require("../middleware/validate-session");
 
 const router = Router();
 
@@ -28,6 +28,16 @@ router.post("/signup", async function (req, res) {
       .catch(function (err) {
         res.status(500).json({ error: err });
       });
+  } catch (e) {
+    res.status(500).json({ message: e.message });
+  }
+});
+
+router.get("/userlist", validateSession, (req, res) => {
+  try {
+    User.findAll()
+      .then((User) => res.status(200).json(User))
+      .catch((err) => res.status(500).json({ error: err }));
   } catch (e) {
     res.status(500).json({ message: e.message });
   }
