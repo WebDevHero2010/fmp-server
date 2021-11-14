@@ -103,7 +103,7 @@ router.put("/update/:entryId", validateSession, function (req, res) {
       ownerAddress: req.body.facility.ownerAddress,
       ownerCity: req.body.facility.ownerCity,
       ownerState: req.body.facility.ownerState,
-      ownerZipcode: req.body.ownerZipcode,
+      ownerZipcode: req.body.facility.ownerZipcode,
     };
 
     const query = {
