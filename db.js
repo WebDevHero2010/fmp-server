@@ -10,12 +10,4 @@ const db = new Sequelize(process.env.DATABASE_URL, {
   },
 });
 
-sequelize.authenticate().then(
-  function () {
-    console.log("Sweet connected to fmp postgres database!");
-  },
-  function (err) {
-    console.log(err);
-  }
-);
 module.exports = db;
